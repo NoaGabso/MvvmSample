@@ -8,11 +8,11 @@
     x:DataType="viewModels:MainPageViewModel">
 
     <Grid ColumnDefinitions="*,*" RowDefinitions="2*,*">
-
+        <RefreshView Command="{Binding RefreshCommand}"  Grid.ColumnSpan="2"
+            IsRefreshing="{Binding Isrefreshing}"  Margin="15" HorizontalOptions="Center">
         <CollectionView
             x:Name="collectionView"
-            Grid.ColumnSpan="2"
-            Margin="15"
+           
             ItemsSource="{Binding Students}">
             <CollectionView.EmptyView>
                 <StackLayout HorizontalOptions="Center">
@@ -75,6 +75,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        </RefreshView>
         <Button
             Margin="15"
             Command="{Binding LoadDataCommand}"

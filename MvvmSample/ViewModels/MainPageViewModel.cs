@@ -12,36 +12,33 @@ using System.Windows.Input;
 
 namespace MvvmSample.ViewModels
 {
-    public class MainPageViewModel : INotifyPropertyChanged
+    public class MainPageViewModel :ViewModelBase
     {
-        #region מימוש ממשק עדכון שינויים
-        public event PropertyChangedEventHandler PropertyChanged;                        
-        
-        private  void OnPropertyChanged([CallerMemberName] string propertyName="")
-        {
-             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));         
-        }
-        #endregion
-
-
+       
         public ObservableCollection<Student> Students { get; set; }
 
         public ICommand LoadDataCommand { get; private set; } 
 
         public ICommand ClearDataCommand { get; private set; }
+        public ICommand RefreshCommand { get; private set; }
+        private bool isrefreshing;
+        public bool Isrefreshing { get { return isrefreshing; } set { if (isrefreshing != value) { isrefreshing = value; OnPropertyChanged(); } } }
+ 
 
         public MainPageViewModel()
         {
             Students = new ObservableCollection<Student>(); 
             LoadDataCommand=new Command(LoadData);
             ClearDataCommand = new Command(() => Students.Clear());
+            RefreshCommand = new Command(LoadData);
         }
 
         public void LoadData()
         {
             Students.Clear();
            Students.Add(new Student() { BirthDate = DateTime.Now, Name = "ג'ופיר", Image = "jofir.jpg" });
-            
+            Isrefreshing = false;
+           
         }
     }
 }
